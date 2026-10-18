@@ -1,0 +1,39 @@
+# Python / Node environments and caches
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build artefacts
+build/
+dist/
+*.egg-info/
+
+# Pipeline output and QA scratch
+out/
+qa/
+qa_review/
+qa_*/
+*.epub
+*.azw3
+*.mobi
+*.eml
+
+# Personal Send-to-Kindle settings (Kindle + Gmail addresses).
+# Only the repo-root file; math2kindle/config_example.toml stays tracked.
+/config.toml
+
+# OS / editor clutter
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+
+# Nothing above matches tests/fixtures/ (its .pdf and .tar.gz files are tracked).

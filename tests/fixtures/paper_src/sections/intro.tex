@@ -1,0 +1,38 @@
+\section{Introduction}\label{sec:intro}
+
+Let $\Lambda$ denote the von Mangoldt function, so that $\Lambda(n)=\log p$ if $n=p^k$ is a
+prime power and $\Lambda(n)=0$ otherwise, and let
+\begin{equation}\label{eq:psi}
+\psi(x) = \sum_{n\le x}\Lambda(n) = \sum_{p^k\le x}\log p .
+\end{equation}
+The \PNT{} in the form $\psi(x)\sim x$ is equivalent to the non-vanishing of the Riemann
+zeta function on the line $\Re s=1$, and the strongest known error term,
+\begin{equation}\label{eq:pnt}
+\psi(x) = x + \bigO{x\exp\left(-c\,\frac{(\log x)^{3/5}}{(\log\log x)^{1/5}}\right)},
+\end{equation}
+comes from the Vinogradov--Korobov zero-free region \cite{Korobov,Vinogradov}. The link between
+$\psi$ and the zeros of $\zeta(s)$ is Perron's formula, which recovers the partial sums of a
+Dirichlet series
+\[
+F(s)=\sum_{n=1}^{\infty}\frac{a_n}{n^{s}}, \qquad \Re s > \sigma_a,
+\]
+from its values on a vertical line. For $F=\zeta$ we have the Euler product and its logarithmic
+derivative,
+\begin{equation}\label{eq:euler}
+\zeta(s)=\prod_{p}\left(1-p^{-s}\right)^{-1}, \qquad
+-\frac{\zeta'}{\zeta}(s)=\sum_{n=1}^\infty\frac{\Lambda(n)}{n^s}\quad(\sigma>1).
+\end{equation}
+
+Our main results are an explicit truncated Perron formula (\cref{thm:perron}) and its application
+to primes in short intervals (\cref{thm:short}). Section~\ref{sec:prelim} collects the necessary
+estimates, \eg the bound
+$\sum_{n\le x}\Lambda(n)\log\frac{x}{n} = x + O\bigl(x\exp(-c\sqrt{\log x})\bigr) + \sum_{p\le x}\frac{\log p}{p}\log\frac{x}{p} - \sum_{p\le \sqrt{x}}\log p$
+which we use repeatedly.\footnote{All implied constants are absolute unless indicated otherwise;
+we write $f\ll g$ for $f=O(g)$.}
+
+\begin{notation}
+Throughout, $p$ denotes a prime, $s=\sigma+it$ with $\sigma,t\in\R$, and for $x\notin\Z$
+\[
+\sumprime_{n\le x} a_n = \sum_{n<x}a_n + \tfrac12 a_x \,\mathbf{1}_{x\in\N}.
+\]
+\end{notation}

@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "math2kindle"
+dynamic = ["version"]
+description = "Convert maths papers (arXiv, LaTeX, PDF) into Kindle-friendly EPUB with pre-rendered formulas"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "lxml>=4.9",
+    "Pillow>=9.0",
+    "pymupdf>=1.23",
+    "pypandoc_binary>=1.13",   # ships a recent pandoc; a system pandoc >= 3.0 also works
+]
+
+[project.optional-dependencies]
+marker = ["marker-pdf>=1.0"]        # ML PDF -> Markdown+LaTeX (pulls in torch; several GB of models on first run)
+send = ["keyring>=24"]              # store the SMTP app password in the OS keychain
+test = ["pytest>=7", "aiosmtpd>=1.4", "keyring>=24"]
+
+[project.scripts]
+math2kindle = "math2kindle.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["math2kindle*"]
+
+[tool.setuptools.package-data]
+math2kindle = ["node/package.json", "node/package-lock.json", "node/render.mjs", "data/*.css", "*.toml"]
+
+[tool.setuptools.dynamic]
+version = { attr = "math2kindle._version.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "node: needs Node.js + the MathJax renderer (npm install on first use)",
+    "slow: end-to-end conversions",
+]

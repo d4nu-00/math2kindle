@@ -1,0 +1,91 @@
+#!/bin/bash
+# kindle - convert a maths paper to EPUB and e-mail it to your Kindle.
+#
+#   kindle <arxiv-id | arxiv URL | file.pdf | file.tex | source.tar.gz> [options]
+#       --no-send        convert only
+#       --dry-run        build the e-mail (.eml next to the EPUB) but do not send it
+#       --out DIR        where the EPUB goes (default: $M2K_OUT or ~/Documents/math2kindle)
+#       --allow-text-fallback  if marker cannot run, write a text-only EPUB (garbled maths);
+#                        such a book is never e-mailed
+#       any other option is passed to math2kindle (e.g. --backend marker, --width-em 20, -v)
+#   kindle check             test the Gmail login (sends nothing)
+#   kindle set-password      store the Gmail App Password in the macOS Keychain
+#   kindle send FILE.epub    e-mail an existing file
+#
+# Installed by install_mac.sh as ~/.local/bin/kindle and ~/.local/bin/math2kindle
+# (symlinks to this file). Called as "math2kindle" it is a plain pass-through to the CLI.
+set -euo pipefail
+
+# Resolve this script's real directory through symlinks (no readlink -f on old macOS).
+src="${BASH_SOURCE[0]}"
+while [ -L "$src" ]; do
+  dir="$(cd -P "$(dirname "$src")" && pwd)"
+  src="$(readlink "$src")"
+  case "$src" in /*) ;; *) src="$dir/$src" ;; esac
+done
+REPO="$(cd -P "$(dirname "$src")" && pwd)"
+PY="$REPO/.venv/bin/python"
+if [ ! -x "$PY" ]; then
+  echo "kindle: $PY not found - run: bash $REPO/install_mac.sh" >&2
+  exit 1
+fi
+
+# node (Homebrew) and pdflatex (BasicTeX) must be findable even from a bare shell / launchd / Shortcuts.
+for d in "$HOME/.homebrew/bin" /opt/homebrew/bin /usr/local/bin /Library/TeX/texbin; do
+  case ":$PATH:" in *":$d:"*) ;; *) if [ -d "$d" ]; then PATH="$PATH:$d"; fi ;; esac
+done
+export PATH
+unset PYTHONPATH PYTHONHOME
+# Keep the cwd off sys.path (a cwd holding the repo dir would shadow the package).
+export PYTHONSAFEPATH=1
+
+if [ "$(basename "$0")" = "math2kindle" ]; then
+  exec "$PY" -m math2kindle "$@"
+fi
+
+usage() { sed -n '2,15p' "$src" | sed 's/^# \{0,1\}//'; }
+
+case "${1:-}" in
+  ""|-h|--help) usage; exit 0 ;;
+  check|set-password|send) exec "$PY" -m math2kindle.send "$@" ;;
+esac
+
+SEND=1; DRY=""; HAVE_OUT=0
+ARGS=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --no-send) SEND=0 ;;
+    --dry-run) DRY="--dry-run" ;;
+    --send) ;;                                   # sending is the default here
+    -o|--out|--out=*) HAVE_OUT=1; ARGS+=("$1") ;;
+    *) ARGS+=("$1") ;;
+  esac
+  shift
+done
+if [ "$HAVE_OUT" = "0" ]; then
+  OUT="${M2K_OUT:-$HOME/Documents/math2kindle}"
+  mkdir -p "$OUT"
+  ARGS+=(--out "$OUT")
+fi
+
+# The CLI prints the EPUB path as the last line of stdout; logs go to stderr.
+if ! result="$("$PY" -m math2kindle "${ARGS[@]}")"; then
+  echo "kindle: conversion failed" >&2
+  exit 2
+fi
+EPUB="$(printf '%s\n' "$result" | tail -n 1)"
+[ -f "$EPUB" ] || { echo "kindle: conversion did not report an EPUB (got: $result)" >&2; exit 2; }
+echo "EPUB: $EPUB"
+
+if [ "$SEND" = "1" ]; then
+  # A text-fallback EPUB (made only with --allow-text-fallback) has garbled maths: never e-mail it.
+  if ! "$PY" -c 'import sys; from math2kindle.send import is_text_fallback_epub as f; sys.exit(1 if f(sys.argv[1]) else 0)' "$EPUB"; then
+    echo "kindle: $EPUB is a plain-text fallback (garbled maths); NOT e-mailed. Fix marker-pdf and convert again." >&2
+    exit 3
+  fi
+  if [ -n "$DRY" ]; then
+    "$PY" -m math2kindle.send send "$EPUB" --dry-run
+  else
+    "$PY" -m math2kindle.send send "$EPUB"
+  fi
+fi

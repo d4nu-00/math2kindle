@@ -1,0 +1,34 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{1}
+
+\bibitem{Davenport}
+H.~Davenport, \emph{Multiplicative number theory}, third ed., Graduate Texts in
+  Mathematics, vol.~74, Springer-Verlag, New York, 2000.
+
+\bibitem{Huxley}
+M.~N. Huxley, \emph{On the difference between consecutive primes}, Invent.
+  Math. \textbf{15} (1972), 164--170.
+
+\bibitem{Ivic}
+A.~Ivi\'c, \emph{The {R}iemann zeta-function}, John Wiley \& Sons, New York,
+  1985.
+
+\bibitem{Korobov}
+N.~M. Korobov, \emph{Estimates of trigonometric sums and their applications},
+  Uspehi Mat. Nauk \textbf{13} (1958), no.~4, 185--192.
+
+\bibitem{Titchmarsh}
+E.~C. Titchmarsh, \emph{The theory of the {R}iemann zeta-function}, second ed.,
+  The Clarendon Press, Oxford, 1986, edited by D.~R. Heath-Brown.
+
+\bibitem{Vinogradov}
+I.~M. Vinogradov, \emph{A new estimate of the function $\zeta(1+it)$}, Izv.
+  Akad. Nauk SSSR. Ser. Mat. \textbf{22} (1958), 161--164.
+
+\end{thebibliography}

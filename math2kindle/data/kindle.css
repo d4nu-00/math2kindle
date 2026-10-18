@@ -1,0 +1,101 @@
+@charset "utf-8";
+/* math2kindle — stylesheet tuned for Kindle e-ink.  Relative units only, so
+   the reader's font-size setting scales text AND maths images together. */
+
+html, body { margin: 0; padding: 0; }
+body { font-family: serif; line-height: 1.4; widows: 2; orphans: 2; }
+
+/* Ragged-right by default: lines holding wide unbreakable formula images
+   justify badly (huge word gaps).  --justify switches this. */
+p { margin: 0; text-indent: 1.2em; text-align: left; /* body */ }
+p.noindent, p.cont, p.qed-line { text-indent: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: serif; text-align: left; line-height: 1.25; text-indent: 0;
+  page-break-after: avoid; hyphens: none; -webkit-hyphens: none; adobe-hyphenate: none;
+}
+h1 { font-size: 1.35em; font-weight: bold; margin: 0.6em 0 0.9em 0; }
+h2 { font-size: 1.15em; font-weight: bold; margin: 1.3em 0 0.5em 0; }
+h3 { font-size: 1.0em; font-weight: bold; margin: 1.1em 0 0.4em 0; }
+h4, h5, h6 { font-size: 1.0em; font-weight: bold; font-style: italic; margin: 1em 0 0.3em 0; }
+.secnum { padding-right: 0.25em; }
+
+/* ---- maths ---- */
+img.mi { border: 0; margin: 0; padding: 0; }
+span.mi-group { white-space: normal; }
+div.eq { text-align: center; text-indent: 0; margin: 0.55em 0; page-break-inside: avoid; }
+div.eq-left { text-align: left; }
+div.eq-right { text-align: right; }
+/* a multi-line display: sized as a whole and scaled as a whole */
+div.eqgroup { margin: 0.55em auto; max-width: 100%; text-indent: 0; page-break-inside: avoid; }
+div.eqgroup div.eq { margin: 0.15em 0; }
+img.md { max-width: 100%; height: auto; border: 0; vertical-align: top; }
+/* Equation numbers are text: right margin when there is room, otherwise they
+   wrap below the formula (narrow screens / large fonts). */
+span.eqno { float: right; padding-left: 0.8em; font-style: normal; font-weight: normal; }
+span.eqclear { display: block; clear: both; height: 0; }
+span.nobr { white-space: nowrap; }
+span.eq-inline { display: block; text-align: center; text-indent: 0; margin: 0.4em 0; }
+code { font-family: monospace; font-size: 0.85em; }
+code.tex { font-family: monospace; font-size: 0.85em; }
+pre.tex { font-family: monospace; font-size: 0.8em; white-space: pre-wrap; text-align: left; margin: 0; }
+
+/* ---- theorem-like environments ---- */
+div.thm { margin: 0.9em 0; }
+div.thm-plain p, div.thm-plain li { font-style: italic; }
+.thm-name { font-weight: bold; font-style: normal; }
+div.thm-remark .thm-name { font-weight: normal; font-style: italic; }
+div.proof { margin: 0.6em 0 0.9em 0; }
+.proof-name { font-style: italic; }
+span.qed { font-style: normal; }
+p.qed-line { text-align: right; }
+
+/* ---- abstract / title page ---- */
+div.title-page { text-align: center; margin-top: 1.5em; }
+div.title-page h1.title { text-align: center; font-size: 1.5em; margin: 0.5em 0 0.8em 0; }
+p.authors { text-align: center; text-indent: 0; font-size: 1.05em; margin: 0.4em 0; }
+p.source { text-align: center; text-indent: 0; font-size: 0.9em; margin: 0.3em 0 1.2em 0; }
+div.abstract { text-align: justify; margin: 1.2em 1em; font-size: 0.95em; }
+p.abstract-head { text-align: center; text-indent: 0; margin-bottom: 0.4em; }
+
+/* ---- lists ---- */
+ul, ol { margin: 0.4em 0 0.4em 0; padding-left: 1.8em; }
+li { margin: 0.15em 0; }
+li p { text-indent: 0; }
+ol.custom-labels { list-style-type: none; padding-left: 2.4em; }
+ol.custom-labels p.itemfirst, li.itemfirst-li { text-indent: -2.4em; }
+span.itemlabel { font-style: normal; }
+dl { margin: 0.5em 0; }
+dt { font-weight: bold; }
+dd { margin-left: 1.5em; }
+
+/* ---- figures & tables ---- */
+figure { margin: 1em 0; text-align: center; text-indent: 0; page-break-inside: avoid; }
+img.figure-img { max-width: 100%; height: auto; }
+figcaption { font-size: 0.9em; text-align: left; margin: 0.4em 0.5em 0 0.5em; text-indent: 0; }
+figcaption p { text-indent: 0; }
+table { border-collapse: collapse; margin: 0.8em auto; }
+caption { font-size: 0.95em; margin-bottom: 0.3em; text-align: left; }
+th, td { padding: 0.15em 0.45em; vertical-align: top; }
+thead tr { border-bottom: 1px solid black; }
+table p { text-indent: 0; text-align: left; }
+
+/* ---- footnotes (Kindle shows epub:type="footnote" asides as pop-ups) ---- */
+a.noteref { text-decoration: none; }
+a.noteref sup { font-size: 0.75em; line-height: 0; }
+section.footnotes { margin-top: 1.5em; font-size: 0.9em; }
+hr.fn-rule { width: 30%; margin: 0.5em 0; border: 0; border-top: 1px solid black; }
+aside.footnote p { text-indent: 0; margin: 0.25em 0; }
+a.fn-num { text-decoration: none; }
+
+/* ---- bibliography ---- */
+div.bibliography p.bibitem { text-indent: -2.2em; margin: 0 0 0.35em 2.2em; text-align: left; }
+span.biblabel { padding-right: 0.3em; }
+a.cite { text-decoration: none; }
+
+/* ---- misc ---- */
+blockquote { margin: 0.6em 1.5em; }
+pre { font-family: monospace; font-size: 0.85em; white-space: pre-wrap; }
+p.warning { border: 1px solid black; padding: 0.4em; text-indent: 0; }
+nav#toc ol { list-style-type: none; padding-left: 1em; }
+nav#toc > ol { padding-left: 0; }

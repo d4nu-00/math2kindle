@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{nonexistentpackage}
+\makeatletter
+\def\@weird#1\@nil{#1}
+\makeatother
+\def\delim#1.#2;{#1-#2}
+\newcommand\R{\mathbb{R}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\note}[1]{\textbf{Note:} #1}
+\newcommand{\recursive}{\recursive}
+\newenvironment{myproof}{\begin{proof}[My proof]}{\end{proof}}
+\newtheorem{thm}{Theorem}
+\newtheorem*{claim*}{Claim}
+\title{Torture test: $\mathfrak{T}$ \& friends}
+\author{First Author\thanks{Funded.} \and Second Author}
+\begin{document}
+\maketitle
+\begin{abstract}
+An abstract with $x^2$ and an em-dash --- and a tilde~space.
+\end{abstract}
+
+\section{Odd things}
+Verbatim: \verb|$not math$| and \verb+\section{no}+. Escaped \$5 and 50\% off, \S2, caf\'e, na\"ive.
+Comments % hidden $broken
+are stripped. An \iffalse hidden \fi visible iff $a\iff b$.
+\begin{comment}
+This must vanish.
+\end{comment}
+Text macro: \note{important}. Unknown command \foobar{arg} keeps going.
+Recursive macro: \recursive. Harmonic $1$-forms on a 2-dimensional torus.
+Undefined ref \ref{nope} and cite \cite{nokey}. URL \url{https://arxiv.org} and \href{https://example.com}{a link}.
+
+\begin{thm}[With $\abs{x}$ in the title]\label{thm:a}
+For all $x\in\R$, $\abs{x}\ge 0$. Also an equation array:
+\begin{eqnarray}
+a &=& b \label{eq:ea}\\
+c &\le& d \nonumber
+\end{eqnarray}
+\end{thm}
+\begin{myproof}
+Obvious from \eqref{eq:ea} and Theorem~\ref{thm:a}.
+\end{myproof}
+\begin{claim*} Unnumbered claim. \end{claim*}
+
+\begin{unknownenv}[opt]{arg}
+Content of an unknown environment with $y$.
+\end{unknownenv}
+
+\begin{itemize}
+\item First with $\int_0^1 f$.
+\item[$\star$] Custom bullet.
+\end{itemize}
+\begin{description}
+\item[Term] Definition with \emph{emphasis}.
+\end{description}
+
+A display with a broken command
+\[ \frac{1}{\undefinedmacro{2}} \]
+and one MathJax rejects but LaTeX accepts:
+\[ \xymatrix{A \ar[r] & B} \]
+plus an unterminated one: $x + y
+
+\begin{figure}
+\includegraphics{missing-file}
+\caption{A missing figure.}
+\end{figure}
+
+\begin{tikzpicture}
+\draw (0,0) -- (1,1);
+\end{tikzpicture}
+
+\subsection*{Unnumbered subsection}
+\paragraph{Run-in heading} Text after it.
+
+\appendix
+\section{An appendix}\label{app:a}
+See Appendix~\ref{app:a} and equation
+\begin{equation}
+e^{i\pi}+1=0. \label{eq:euler}
+\end{equation}
+Reference \eqref{eq:euler}.
+
+\begin{thebibliography}{9}
+\bibitem{real} A. Real, \emph{Paper}, 2020.
+\end{thebibliography}
+\end{document}

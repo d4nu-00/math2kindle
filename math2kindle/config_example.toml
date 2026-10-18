@@ -1,0 +1,32 @@
+# math2kindle — Send to Kindle e-mail settings (example for Gmail)
+#
+# Copy to ~/.config/math2kindle/config.toml (or point --config /
+# $MATH2KINDLE_CONFIG at it) and edit the two addresses.
+#
+# There is deliberately NO password key: passwords are never read from this
+# file. Provide the Gmail App Password via either
+#   * the OS keyring:   python -m math2kindle.send set-password   (recommended)
+#   * the environment:  export MATH2KINDLE_SMTP_PASSWORD='abcdefghijklmnop'
+# then verify with:     python -m math2kindle.send check
+# See docs/SEND_TO_KINDLE.md for the one-time Amazon/Google setup.
+
+# Your Kindle's Send-to-Kindle address. Amazon -> Manage Your Content and
+# Devices -> Preferences -> Personal Document Settings.
+# Must end in @kindle.com (Wi-Fi or cellular) or @free.kindle.com (Wi-Fi only).
+kindle_email = "your_name_AbC123@kindle.com"
+
+# The address the e-mail comes from. It MUST be on Amazon's
+# "Approved Personal Document E-mail List", or Amazon silently drops the mail.
+from_email = "you@gmail.com"
+
+# Gmail SMTP. 587 + "starttls" is the standard choice;
+# 465 + "ssl" also works. "none" is only for a local test server.
+smtp_host = "smtp.gmail.com"
+smtp_port = 587
+smtp_security = "starttls"   # "starttls" | "ssl" | "none"
+
+# Login name; defaults to from_email. Set it if you send from a Gmail alias.
+# smtp_user = "you@gmail.com"
+
+# Socket timeout in seconds (optional, default 60).
+# smtp_timeout = 60

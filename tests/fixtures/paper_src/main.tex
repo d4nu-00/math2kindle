@@ -1,0 +1,161 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{tikz-cd}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{cleveref}
+
+\input{macros}
+
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{notation}{Notation}
+
+\title[Truncated Perron formulae]{A truncated Perron formula and \\ short sums of $\Lambda(n)$ in arithmetic progressions}
+\author{Ada N. Example}
+\address{Department of Mathematics, Example University}
+\email{ada@example.org}
+\author{Ben Q. Placeholder}
+\thanks{The second author was supported by the Fictional Research Council.}
+\subjclass[2020]{11N05, 11M06}
+\keywords{Perron's formula, von Mangoldt function, Dirichlet $L$-functions}
+
+\begin{document}
+
+\begin{abstract}
+We give a self-contained proof of an explicit truncated form of Perron's formula
+for Dirichlet series $F(s)=\sum_{n\ge1}a_n n^{-s}$ with $\abs{a_n}\le A(n)$, and use it to
+estimate $\psi(x;q,a)=\sum_{n\le x,\ n\equiv a \bmod q}\Lambda(n)$ in short intervals
+$[x, x+h]$ with $h = x^{\theta}$, $\theta>7/12$. The argument is classical; the point is to make
+every constant explicit.
+\end{abstract}
+
+\maketitle
+
+\input{sections/intro}
+\input{sections/perron}
+
+\section{Primes in short intervals}\label{sec:short}
+
+We now apply \cref{thm:perron} with $a_n=\Lambda(n)\chi(n)$, so that
+$F(s)=-\frac{L'}{L}(s,\chi)$. Write $s=\sigma+it$ throughout, and let $\rho=\beta+i\gamma$
+denote a non-trivial zero of $\Lfun{\chi}$.
+
+\begin{lemma}[Explicit formula]\label{lem:explicit}
+Let $2\le T\le x$ and let $\chi$ be a primitive character modulo $q$. Then
+\begin{multline}\label{eq:explicit}
+\psi(x,\chi) = \delta_\chi x - \sum_{\abs{\gamma}\le T}\frac{x^{\rho}}{\rho}
+ - (1-\delta_\chi)\frac{L'}{L}(0,\chi) \\
+ + \bigO{\frac{x\log^2(qxT)}{T} + \log x \min\Bigl(1, \frac{x}{T\langle x\rangle}\Bigr)},
+\end{multline}
+where $\delta_\chi=1$ if $\chi$ is principal and $0$ otherwise, and $\langle x\rangle$
+denotes the distance from $x$ to the nearest prime power other than $x$ itself.
+\end{lemma}
+
+\begin{proof}
+Apply \eqref{eq:perron-trunc} with $c = 1+1/\log x$ and move the line of integration to
+$\Re s=-\tfrac12$, as in Figure~\ref{fig:contour}. The residues are
+\begin{equation}
+\Res_{s=1}\left(-\frac{L'}{L}(s,\chi)\frac{x^s}{s}\right) = \delta_\chi x,
+\qquad
+\Res_{s=\rho}\left(-\frac{L'}{L}(s,\chi)\frac{x^s}{s}\right) = -\frac{x^\rho}{\rho}.
+\end{equation}
+The horizontal segments contribute $\ll x\log^2(qT)/(T\log x)$ by the standard bound
+$\frac{L'}{L}(\sigma\pm iT,\chi)\ll\log^2(qT)$, valid for $T$ chosen at distance
+$\gg 1/\log(qT)$ from every ordinate $\gamma$.\footnote{Such a $T$ exists in every interval
+$[T_0,T_0+1]$, since there are $O(\log qT_0)$ zeros with $\abs{\gamma-T_0}\le1$.}
+\end{proof}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.62\textwidth]{figures/contour}
+\caption{The contour used in the proof of \cref{lem:explicit}: the segment
+$[c-iT,c+iT]$ is shifted to the left of the critical line, picking up the pole at
+$s=1$ and the zeros $\rho$ with $\abs{\gamma}\le T$.}
+\label{fig:contour}
+\end{figure}
+
+Subtracting \eqref{eq:explicit} at $x$ and $x+h$ and averaging over characters gives the
+following.
+
+\begin{theorem}\label{thm:short}
+Let $\eps>0$ and $\theta> \frac{7}{12}+\eps$. For $x\ge x_0(\eps)$, $h=x^\theta$, and
+$q\le (\log x)^{A}$,
+\begin{equation}\label{eq:short}
+\psi(x+h;q,a)-\psi(x;q,a) = \frac{h}{\varphi(q)}\left(1+\bigO{\exp\left(-c\frac{\log x}{(\log\log x)^{2/3}}\right)}\right)
+\end{equation}
+uniformly for $(a,q)=1$.
+\end{theorem}
+
+\begin{proof}
+By orthogonality of characters,
+\begin{align}
+\psi(x+h;q,a)-\psi(x;q,a)
+ &= \frac{1}{\varphi(q)}\sum_{\chi \bmod q}\bar\chi(a)\bigl(\psi(x+h,\chi)-\psi(x,\chi)\bigr)\label{eq:orth}\\
+ &= \frac{h}{\varphi(q)} - \frac{1}{\varphi(q)}\sum_{\chi\bmod q}\bar\chi(a)
+    \sum_{\abs{\gamma}\le T}\frac{(x+h)^{\rho}-x^{\rho}}{\rho} + \bigO{\frac{x\log^2 x}{T}}. \nonumber
+\end{align}
+Since $\abs{(x+h)^\rho-x^\rho}\le h x^{\beta-1}\abs{\rho}$, the double sum is at most
+\[
+ h\sum_{\chi}\sum_{\abs{\gamma}\le T} x^{\beta-1}
+ \le h \int_0^1 x^{\sigma-1}\dd N(\sigma,T;q) \ll h\,(\log x)\max_{1/2\le\sigma\le1} x^{\sigma-1}N(\sigma,T;q),
+\]
+where $N(\sigma,T;q)$ counts zeros of all $\Lfun{\chi}$, $\chi\bmod q$, with
+$\beta\ge\sigma$ and $\abs{\gamma}\le T$. Huxley's density estimate
+$N(\sigma,T;q)\ll (qT)^{\frac{12}{5}(1-\sigma)}(\log qT)^{B}$ \cite[Ch.~12]{Ivic} and the
+Vinogradov--Korobov zero-free region \cite{Korobov, Vinogradov} finish the proof with
+$T=x^{1-\theta+\eps}$.
+\end{proof}
+
+\begin{remark}
+The exponent $\frac{7}{12}$ is Huxley's \cite{Huxley}; any improvement in the density
+hypothesis range transfers directly. The matrix
+\[
+\gamma=\begin{pmatrix} a & b\\ c & d\end{pmatrix}\in \mathrm{SL}_2(\Z),\qquad
+\gamma\cdot z=\frac{az+b}{cz+d},
+\]
+plays no role here but is a reminder that the same method applies to Hecke $L$-functions,
+for which the relevant maps fit in the diagram
+\[
+\begin{tikzcd}
+\mathcal{S}_k(\Gamma_0(N)) \arrow[r, "\Lambda"] \arrow[d] & \mathcal{D} \arrow[d, "\mathcal{M}"] \\
+\mathcal{S}_k(\Gamma_1(N)) \arrow[r] & \mathcal{H}
+\end{tikzcd}
+\]
+of Mellin transforms.
+\end{remark}
+
+\begin{table}[ht]
+\centering
+\caption{Admissible exponents $\theta$ for \cref{thm:short} under various zero-density hypotheses.}
+\label{tab:theta}
+\begin{tabular}{lcc}
+\hline
+Density estimate & exponent $A(\sigma)$ & admissible $\theta$ \\
+\hline
+Ingham (1937) & $\frac{3}{2-\sigma}$ & $\theta>\frac58$ \\
+Huxley (1972) & $\frac{12}{5}$ & $\theta>\frac{7}{12}$ \\
+Density Hypothesis & $2$ & $\theta>\frac12$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\section*{Acknowledgements}
+We thank the referee for pointing out \cite{Titchmarsh}, and for the observation that
+$\sum_{p\le x}\frac{\log p}{p}=\log x+O(1)$ suffices in \cref{sec:prelim}.
+
+\bibliographystyle{amsplain}
+\bibliography{refs}
+
+\end{document}

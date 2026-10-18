@@ -1,0 +1,16 @@
+{
+  "name": "math2kindle-mathrender",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Batch TeX -> SVG (MathJax 4) -> PNG (resvg) renderer used by math2kindle",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@mathjax/mathjax-newcm-font": "4.1.3",
+    "@mathjax/src": "4.1.3",
+    "@resvg/resvg-js": "2.6.2"
+  }
+}

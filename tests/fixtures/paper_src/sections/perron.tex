@@ -1,0 +1,91 @@
+\section{Preliminaries and Perron's formula}\label{sec:prelim}
+
+\subsection{A discontinuous integral}
+For $y>0$ and $c>0$ define the step function
+\begin{equation}\label{eq:delta}
+\delta(y) = \begin{cases}
+ 0 & \text{if } 0<y<1,\\
+ \tfrac12 & \text{if } y=1,\\
+ 1 & \text{if } y>1.
+\end{cases}
+\end{equation}
+
+\begin{lemma}\label{lem:discont}
+Let $c>0$, $y>0$ and $T>0$, and put
+$I(y,T)=\frac{1}{2\pi i}\int_{c-iT}^{c+iT} y^{s}\frac{\dd s}{s}$. Then
+\begin{equation}\label{eq:discont}
+\abs{I(y,T)-\delta(y)} <
+\begin{dcases}
+ y^{c}\min\left(1,\frac{1}{T\abs{\log y}}\right) & \text{if } y\ne1,\\
+ \frac{c}{T} & \text{if } y=1.
+\end{dcases}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Suppose $y>1$. By Cauchy's theorem applied to the rectangle with vertices $c\pm iT$ and
+$-U\pm iT$, and letting $U\to\infty$,
+\begin{align}
+I(y,T) - 1 &= -\frac{1}{2\pi i}\left(\int_{-\infty+iT}^{c+iT} - \int_{-\infty-iT}^{c-iT}\right)y^{s}\frac{\dd s}{s}, \label{eq:rect}\\
+\intertext{and each horizontal integral is bounded by}
+\abs*{\int_{-\infty\pm iT}^{c\pm iT} y^{s}\frac{\dd s}{s}} &\le \frac{1}{T}\int_{-\infty}^{c} y^{\sigma}\dd\sigma
+ = \frac{y^{c}}{T\log y}. \nonumber
+\end{align}
+For the bound $y^c$ one instead uses the arc of the circle $\abs{s}=\abs{c+iT}$ to the left of
+the line. The case $0<y<1$ is symmetric, and $y=1$ is a direct computation:
+$I(1,T)=\frac{1}{\pi}\arctan\frac{T}{c}=\frac12-\frac{1}{\pi}\arctan\frac{c}{T}$.
+\end{proof}
+
+\subsection{The truncated formula}
+
+\begin{definition}\label{def:admissible}
+A sequence $(a_n)$ is \emph{admissible} if
+\begin{enumerate}[label=(\roman*)]
+\item\label{it:abs} the series $\sum_n a_n n^{-\sigma}$ converges absolutely for $\sigma>1$, and
+\item\label{it:growth} $\abs{a_n}\le A(n)$ for a non-decreasing function $A$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Truncated Perron formula]\label{thm:perron}
+Let $(a_n)$ be admissible, $x\ge2$, $T\ge2$, and $c=1+\frac{1}{\log x}$. Then
+\begin{equation}\label{eq:perron-trunc}
+\sumprime_{n\le x} a_n = \frac{1}{2\pi i}\int_{c-iT}^{c+iT}F(s)\frac{x^{s}}{s}\dd s
+ + \bigO{\frac{x}{T}\sum_{n=1}^{\infty}\frac{\abs{a_n}}{n^{c}} + \frac{x A(2x)\log x}{T} + A(N)\min\left(1,\frac{x}{T\langle x\rangle}\right)},
+\end{equation}
+where $N$ is the integer nearest to $x$.
+\end{theorem}
+
+\begin{proof}
+By absolute convergence (condition~\ref{it:abs}) we may integrate term by term:
+\[
+\frac{1}{2\pi i}\int_{c-iT}^{c+iT}F(s)\frac{x^{s}}{s}\dd s=\sum_{n=1}^{\infty}a_n\, I\!\left(\frac{x}{n},T\right).
+\]
+Using \cref{lem:discont} with $y=x/n$ and splitting the range of $n$ into $n\le x/2$,
+$x/2<n\le 2x$ and $n>2x$, we obtain
+\begin{gather}
+\sum_{n\le x/2}+\sum_{n>2x} \ll \frac{x^{c}}{T}\sum_{n}\frac{\abs{a_n}}{n^c}\ll \frac{x}{T}\sum_n\frac{\abs{a_n}}{n^{c}},\label{eq:far}\\
+\sum_{x/2<n\le2x} \ll A(2x)\sum_{x/2<n\le 2x}\min\left(1,\frac{x}{T\abs{x-n}}\right)\ll \frac{xA(2x)\log x}{T}+A(N)\min\left(1,\frac{x}{T\langle x\rangle}\right),\label{eq:near}
+\end{gather}
+since $x^{c}=e\,x$ and $\abs{\log(x/n)}\asymp\abs{x-n}/x$ in the middle range; condition~\ref{it:growth}
+controls $\abs{a_n}$ there. Adding \eqref{eq:far} and \eqref{eq:near} gives \eqref{eq:perron-trunc}.
+\end{proof}
+
+\begin{corollary}\label{cor:psi}
+For $2\le T\le x$,
+\begin{equation}\label{eq:psi-perron}
+\psi(x)=\frac{1}{2\pi i}\int_{c-iT}^{c+iT}\left(-\frac{\zeta'}{\zeta}(s)\right)\frac{x^{s}}{s}\dd s + \bigO{\frac{x\log^{2}x}{T}}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Take $a_n=\Lambda(n)$ and $A(n)=\log n$ in \cref{thm:perron}, and use
+$\sum_n\Lambda(n)n^{-c}=-\frac{\zeta'}{\zeta}(c)\asymp\frac{1}{c-1}=\log x$.
+\end{proof}
+
+\begin{remark}\label{rem:smooth}
+With the smooth weight $\log(x/n)$ the truncation error improves, because
+\begin{equation*}
+\sum_{n\le x}\Lambda(n)\log\frac{x}{n} = \frac{1}{2\pi i}\int_{(c)}\left(-\frac{\zeta'}{\zeta}(s)\right)\frac{x^{s}}{s^{2}}\dd s
+\end{equation*}
+converges absolutely; see \cite[\S 17]{Davenport} and \cite[Thm.~3.12]{Titchmarsh}.
+\end{remark}
